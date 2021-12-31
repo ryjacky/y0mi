@@ -1,4 +1,4 @@
-package pref;
+package utils;
 
 import java.util.prefs.Preferences;
 

@@ -2,6 +2,7 @@ package main;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import utils.FilePaths;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
@@ -11,10 +12,11 @@ public class Main {
 
     public static void main(String[] args) {
         createFolderIfNotExists(FilePaths.CACHE_PATH);
+        createFolderIfNotExists(FilePaths.SRC);
 
         try {
             JDA jda = JDABuilder.createDefault(TOKEN).build();
-            jda.addEventListener(new BotEventHandler());
+            jda.addEventListener(new BotManager());
         } catch (LoginException e) {
             e.printStackTrace();
         }
