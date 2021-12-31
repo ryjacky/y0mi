@@ -1,6 +1,7 @@
-package commands;
+package main;
 
 import bots.ReadupBot;
+import commands.Commands;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
