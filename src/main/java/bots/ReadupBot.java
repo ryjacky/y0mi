@@ -60,7 +60,13 @@ public class ReadupBot implements OnMessageListener, CommandListener {
                     : String.valueOf(new Random().nextInt(100)));
 
             if (msg.length() >= 30 || !(new File(fileName).exists()))
-                new FileOutputStream(fileName).write(VoicevoxHelper.getWav(VoicevoxHelper.getQuery(msg)));
+                new FileOutputStream(fileName).write(
+                        VoicevoxHelper.getWav(
+                                msgTextChannel.getGuild().getIdLong(),
+                                VoicevoxHelper.getQuery(
+                                        msgTextChannel.getGuild().getIdLong(),
+                                        msg)
+                        ));
 
             PlayerManager.getInstance().loadAndPlay(msgTextChannel, fileName);
         } catch (Exception e){

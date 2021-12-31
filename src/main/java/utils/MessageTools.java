@@ -3,9 +3,10 @@ package utils;
 import net.dv8tion.jda.api.entities.Message;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 public class MessageTools {
     public enum MessageType {MIXED_MSG, LINK_MSG, EMOJI_MSG, ATTACHMENT_MSG, HIDDEN_MSG}
-    public enum Command {JOIN, PURIFY, HELP, NOT_FOUND}
 
     public static MessageType getMessageType(@NotNull Message msg){
         String msgString = msg.getContentRaw();
@@ -24,7 +25,7 @@ public class MessageTools {
     }
 
     public static boolean isCommand(@NotNull Message msg){
-        return msg.getContentRaw().matches(BotPreferences.getPrefix()
+        return msg.getContentRaw().matches(BotPreferences.getPrefix(msg.getGuild().getIdLong())
                 + "[a-zA-Z]+");
     }
 
@@ -34,12 +35,15 @@ public class MessageTools {
      * @param msg The message received by the bot
      * @return Returns NOT_FOUND when the command does not exist or msg is not a command
      */
-    public static Command extractCommand(Message msg){
-        return switch (msg.getContentRaw().replaceFirst(BotPreferences.getPrefix(), "")) {
-            case "join" -> Command.JOIN;
-            case "ap" -> Command.PURIFY;
-            case "help" -> Command.HELP;
-            default -> Command.NOT_FOUND;
+    public static CommandContext extractCommand(Message msg){
+        //TODO: Adapt case for parameter command
+        return switch (msg.getContentRaw().replaceFirst(BotPreferences.getPrefix(msg.getGuild().getIdLong()), "")) {
+            case "join" -> new CommandContext(CommandContext.Commands.JOIN, new ArrayList<>());
+            case "ap" -> new CommandContext(CommandContext.Commands.PURIFY, new ArrayList<>());
+            case "setvoice" -> new CommandContext(CommandContext.Commands.SET_VOICE, new ArrayList<>());
+            case "setprefix" -> new CommandContext(CommandContext.Commands.SET_PREFIX, new ArrayList<>());
+            case "help" -> new CommandContext(CommandContext.Commands.HELP, new ArrayList<>());
+            default -> new CommandContext(CommandContext.Commands.NOT_FOUND, new ArrayList<>());
         };
 
     }
