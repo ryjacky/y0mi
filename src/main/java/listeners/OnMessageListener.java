@@ -30,6 +30,14 @@ public interface OnMessageListener {
     void onLinkMessage(@NotNull Message msg);
 
     /**
+     * Triggered when a bot message is received
+     * A message is categorized as bot message if and only if it is sent by bot
+     *
+     * @param msg The raw message received by the bot
+     */
+    void onBotMessage(@NotNull Message msg);
+
+    /**
      * Triggered when an attachment message is received
      * A message is categorized as attachment message if and only if it contains only an attachment (e.g. image, video)
      *

@@ -5,24 +5,25 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
+import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import org.jetbrains.annotations.NotNull;
 import utils.BotPreferences;
 import utils.CommandContext;
+import utils.MessagePresets;
 import utils.MessageTools;
 
 import java.util.HashMap;
-import java.util.prefs.Preferences;
+
+import static utils.Commands.*;
 
 public class BotManager extends ListenerAdapter {
-
-    private Preferences pref;
 
     private HashMap<Long, ReadupBot> botInstances;
 
     public BotManager() {
-        pref = Preferences.userRoot().node(BotPreferences.PREF_PATH);
         botInstances = new HashMap<>();
     }
 
@@ -30,54 +31,28 @@ public class BotManager extends ListenerAdapter {
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
         super.onGuildMessageReceived(event);
 
+        //TODO: REMOVE THIS TEMP COMMAND
+        event.getGuild().upsertCommand(HELP, "マニュアルを呼び出す").queue();
+        event.getGuild().upsertCommand(JOIN, "読み上げを始める").queue();
+        event.getGuild().upsertCommand(SET_VOICE, "ボイスの設定").addOption(
+                OptionType.INTEGER, "id", "ボイスID").queue();
+        event.getGuild().upsertCommand(PURIFY, "空気清浄機").queue();
+        event.getGuild().upsertCommand(LEAVE, "読み上げを終了します").queue();
+
         Message msg = event.getMessage();
         Long msgGuildId = msg.getGuild().getIdLong();
 
-        if (MessageTools.isCommand(msg)){
-            CommandContext extractedCommandContext = MessageTools.extractCommand(msg);
-            if (CommandContext.Commands.NOT_FOUND == extractedCommandContext.getCommand()) {
-
-            } else {
-                switch (MessageTools.extractCommand(msg).getCommand()){
-                    case JOIN -> botInstances.put(msgGuildId, new ReadupBot().joinVC(event));
-                    case SET_PREFIX -> BotPreferences.setPrefix(msgGuildId, MessageTools.extractCommand(msg).getParameters().get(0));
-                    case SET_VOICE -> {
-                        if (msg.getContentRaw().matches("[0-9]+"))
-                            BotPreferences.setVoice(msgGuildId, Integer.parseInt(MessageTools.extractCommand(msg).getParameters().get(0)));
-                        else {
-                            //TODO: When input parameter not int
-                        }
-                    }
-                    case HELP -> {
-                        MessageEmbed helpMsg = new EmbedBuilder()
-                                .setColor(0xF57B42)
-                                .setTitle("ヘルプ")
-                                .addField(BotPreferences.getPrefix(msgGuildId) + "join", "読み上げを始まる", false)
-                                .addField(BotPreferences.getPrefix(msgGuildId) + "ap", "空気清浄機をONにする", false).build();
-
-                        msg.getAuthor().openPrivateChannel().queue((privateChannel ->
-                                privateChannel.sendMessageEmbeds(helpMsg).queue()));
-                    }
-
-                    // Bot instance specific commands go after this line
-                    // -----------------------------------------------------------------------------------
-                    case PURIFY -> {
-                        if (botInstances.containsKey(msgGuildId)) botInstances.get(msgGuildId).onAirPurify(event);
-                    }
-
-                }
-            }
-        } else {
-            if (botInstances.containsKey(msgGuildId)){
-                switch (MessageTools.getMessageType(msg)) {
-                    case MIXED_MSG -> botInstances.get(msgGuildId).onMixedMessage(msg);
-                    case EMOJI_MSG -> botInstances.get(msgGuildId).onEmojiMessage(msg);
-                    case LINK_MSG -> botInstances.get(msgGuildId).onLinkMessage(msg);
-                    case ATTACHMENT_MSG -> botInstances.get(msgGuildId).onAttachmentMessage(msg);
-                    case HIDDEN_MSG -> botInstances.get(msgGuildId).onHiddenMessage(msg);
-                }
+        if (botInstances.containsKey(msgGuildId)){
+            switch (MessageTools.getMessageType(msg)) {
+                case MIXED_MSG -> botInstances.get(msgGuildId).onMixedMessage(msg);
+                case EMOJI_MSG -> botInstances.get(msgGuildId).onEmojiMessage(msg);
+                case LINK_MSG -> botInstances.get(msgGuildId).onLinkMessage(msg);
+                case ATTACHMENT_MSG -> botInstances.get(msgGuildId).onAttachmentMessage(msg);
+                case HIDDEN_MSG -> botInstances.get(msgGuildId).onHiddenMessage(msg);
+                case BOT_MSG -> botInstances.get(msgGuildId).onBotMessage(msg);
             }
         }
+
     }
 
     @Override
@@ -92,5 +67,76 @@ public class BotManager extends ListenerAdapter {
                 botInstances.remove(eventGuildIdLong);
             }
         }
+    }
+
+    public MessageEmbed generateHelp(){
+        return new EmbedBuilder()
+                .setColor(0xF57B42)
+                .setTitle("ヘルプ")
+                .addField("/join", "読み上げを始める", false)
+                .addField("/setvoice [id]", """
+                        読み上げのボイスを変える、設定できるボイスは以下となります
+                        [id] は　0,1,8,9 の一つになります、詳細は下の説明をご覧ください
+                        例：/setvoice 0
+                        
+                        清楚：2
+                        ロリ：3
+                        JK：8
+                        お姉さん：9""", false)
+                .addField("/ap", "空気清浄機をONにする", false).build();
+    }
+
+    @Override
+    public void onSlashCommand(@NotNull SlashCommandEvent event) {
+        super.onSlashCommand(event);
+
+        if (!event.isFromGuild())
+            return;
+
+        Long cmdGuildId = event.getGuild().getIdLong();
+
+        CommandContext extractedCommandContext = MessageTools.extractCommand(event);
+        switch (extractedCommandContext.getCommand()){
+            case JOIN -> {
+                try {
+                    botInstances.put(cmdGuildId, new ReadupBot().joinVC(event));
+                    event.reply(MessagePresets.channelJoined).setEphemeral(false).queue();
+
+                } catch (Exception e){
+                    event.reply(MessagePresets.memberNotInChannel).setEphemeral(true).queue();
+
+                }
+            }
+            case LEAVE -> {
+                if (botInstances.containsKey(cmdGuildId)){
+                        botInstances.get(cmdGuildId).leaveVC();
+                        botInstances.remove(cmdGuildId);
+                }
+                event.reply(MessagePresets.channelLeaved).setEphemeral(false).queue();
+            }
+            case SET_VOICE -> {
+                if (extractedCommandContext.getOptions()[0].matches("[0-9]")) {
+                    BotPreferences.setVoice(cmdGuildId, Integer.parseInt(extractedCommandContext.getOptions()[0]));
+                    event.reply(MessagePresets.setVoiceSuccess).setEphemeral(false).queue();
+
+                } else {
+                    event.reply(MessagePresets.setVoiceFailed).setEphemeral(true).queue();
+                }
+            }
+            case HELP -> event.replyEmbeds(generateHelp()).setEphemeral(true).queue();
+
+            // Bot instance specific commands go after this line
+            // -----------------------------------------------------------------------------------
+            case PURIFY -> {
+                if (botInstances.containsKey(cmdGuildId)) {
+                    botInstances.get(cmdGuildId).onAirPurify(event);
+                    event.reply(MessagePresets.airPurify).setEphemeral(false).queue();
+                }
+            }
+
+            default -> event.reply(MessagePresets.cmdNotFound).setEphemeral(false).queue();
+
+        }
+
     }
 }

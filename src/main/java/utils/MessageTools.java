@@ -1,12 +1,17 @@
 package utils;
 
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static utils.Commands.*;
 
 public class MessageTools {
-    public enum MessageType {MIXED_MSG, LINK_MSG, EMOJI_MSG, ATTACHMENT_MSG, HIDDEN_MSG}
+    public enum MessageType {MIXED_MSG, LINK_MSG, EMOJI_MSG, ATTACHMENT_MSG, HIDDEN_MSG, BOT_MSG}
 
     public static MessageType getMessageType(@NotNull Message msg){
         String msgString = msg.getContentRaw();
@@ -14,6 +19,8 @@ public class MessageTools {
 
         if (msgString.startsWith("||") && msgString.endsWith("||"))
             return MessageType.HIDDEN_MSG;
+        else if (msg.getAuthor().isBot())
+            return MessageType.BOT_MSG;
         else if (msgString.matches(":.*:"))
             return MessageType.EMOJI_MSG;
         else if (msgString.matches("[(http(s)?):\\/\\/(www\\.)?a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)"))
@@ -24,26 +31,21 @@ public class MessageTools {
             return MessageType.MIXED_MSG;
     }
 
-    public static boolean isCommand(@NotNull Message msg){
-        return msg.getContentRaw().matches(BotPreferences.getPrefix(msg.getGuild().getIdLong())
-                + "[a-zA-Z]+");
-    }
-
     /**
      * Convert message msg to an existing command value
      *
-     * @param msg The message received by the bot
+     * @param event The message received by the bot
      * @return Returns NOT_FOUND when the command does not exist or msg is not a command
      */
-    public static CommandContext extractCommand(Message msg){
-        //TODO: Adapt case for parameter command
-        return switch (msg.getContentRaw().replaceFirst(BotPreferences.getPrefix(msg.getGuild().getIdLong()), "")) {
-            case "join" -> new CommandContext(CommandContext.Commands.JOIN, new ArrayList<>());
-            case "ap" -> new CommandContext(CommandContext.Commands.PURIFY, new ArrayList<>());
-            case "setvoice" -> new CommandContext(CommandContext.Commands.SET_VOICE, new ArrayList<>());
-            case "setprefix" -> new CommandContext(CommandContext.Commands.SET_PREFIX, new ArrayList<>());
-            case "help" -> new CommandContext(CommandContext.Commands.HELP, new ArrayList<>());
-            default -> new CommandContext(CommandContext.Commands.NOT_FOUND, new ArrayList<>());
+    public static CommandContext extractCommand(SlashCommandEvent event){
+        return switch (event.getName()) {
+            case JOIN -> new CommandContext(JOIN);
+            case PURIFY -> new CommandContext(Commands.PURIFY);
+            case LEAVE -> new CommandContext(LEAVE);
+            case SET_VOICE -> new CommandContext(Commands.SET_VOICE,
+                    event.getOptionsByName("id").get(0).getAsString());
+            case HELP -> new CommandContext(Commands.HELP);
+            default -> new CommandContext(Commands.NA);
         };
 
     }
