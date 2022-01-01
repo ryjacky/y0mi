@@ -31,14 +31,6 @@ public class BotManager extends ListenerAdapter {
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
         super.onGuildMessageReceived(event);
 
-        //TODO: REMOVE THIS TEMP COMMAND
-        event.getGuild().upsertCommand(HELP, "マニュアルを呼び出す").queue();
-        event.getGuild().upsertCommand(JOIN, "読み上げを始める").queue();
-        event.getGuild().upsertCommand(SET_VOICE, "ボイスの設定").addOption(
-                OptionType.INTEGER, "id", "ボイスID").queue();
-        event.getGuild().upsertCommand(PURIFY, "空気清浄機").queue();
-        event.getGuild().upsertCommand(LEAVE, "読み上げを終了します").queue();
-
         Message msg = event.getMessage();
         Long msgGuildId = msg.getGuild().getIdLong();
 
@@ -116,7 +108,7 @@ public class BotManager extends ListenerAdapter {
             }
             case SET_VOICE -> {
                 if (extractedCommandContext.getOptions()[0].matches("[0-9]")) {
-                    BotPreferences.setVoice(cmdGuildId, Integer.parseInt(extractedCommandContext.getOptions()[0]));
+                    BotPreferences.setVoice(cmdGuildId, extractedCommandContext.getOptions()[0]);
                     event.reply(MessagePresets.setVoiceSuccess).setEphemeral(false).queue();
 
                 } else {

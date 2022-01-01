@@ -13,7 +13,7 @@ public class BotPreferences {
     public static int getVoice(@NotNull Long guildID){
         return pref.getInt(guildID + VOICE, 0);
     }
-    public static void setVoice(@NotNull Long guildID, int voice){
-        pref.putInt(guildID + VOICE, voice);
+    public static void setVoice(@NotNull Long guildID, String voice){
+        pref.put(guildID + VOICE, voice);
     }
 }
