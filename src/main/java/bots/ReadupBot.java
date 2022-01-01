@@ -4,6 +4,7 @@ import listeners.CommandListener;
 import listeners.OnMessageListener;
 import lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import org.apache.commons.logging.Log;
 import utils.BotPreferences;
 import utils.FilePaths;
 import net.dv8tion.jda.api.entities.Message;
@@ -19,6 +20,8 @@ import voicevox.VoicevoxHelper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ReadupBot implements OnMessageListener, CommandListener {
 
@@ -31,7 +34,7 @@ public class ReadupBot implements OnMessageListener, CommandListener {
     }
 
     public ReadupBot joinVC(@NotNull SlashCommandEvent event) throws Exception {
-        if (!event.getMember().getVoiceState().inVoiceChannel()){
+        if (!event.getMember().getVoiceState().inVoiceChannel()) {
             throw new Exception("Member not in channel");
         }
 
@@ -56,8 +59,7 @@ public class ReadupBot implements OnMessageListener, CommandListener {
             audioManager.closeAudioConnection();
     }
 
-    public void readMessage(String msg, TextChannel msgTextChannel){
-        System.out.println(msg);
+    public void readMessage(String msg, TextChannel msgTextChannel) {
         Long msgGuildId = msgTextChannel.getGuild().getIdLong();
 
         try {
@@ -65,17 +67,23 @@ public class ReadupBot implements OnMessageListener, CommandListener {
                     ? msg
                     : String.valueOf(new Random().nextInt(100)));
 
-            if (msg.length() >= 30 || !(new File(fileName).exists()))
-                new FileOutputStream(fileName).write(
+            Logger.getGlobal().log(Level.INFO, "File [" + fileName +  "] - " + msg);
+
+            if (msg.length() >= 30 || !(new File(fileName).exists())) {
+                FileOutputStream fos = new FileOutputStream(fileName);
+                fos.write(
                         VoicevoxHelper.getWav(
                                 msgGuildId,
                                 VoicevoxHelper.getQuery(
                                         msgGuildId,
                                         msg)
                         ));
+                fos.close();
+                fos.flush();
+            }
 
             PlayerManager.getInstance().loadAndPlay(msgTextChannel, fileName);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -122,7 +130,7 @@ public class ReadupBot implements OnMessageListener, CommandListener {
         if (event.getTextChannel() == initTextChannel) {
             try {
                 PlayerManager.getInstance().loadAndPlay(event.getTextChannel(), FilePaths.SFX + "/airpurify.mp3");
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
