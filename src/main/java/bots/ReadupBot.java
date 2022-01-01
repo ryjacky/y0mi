@@ -1,27 +1,24 @@
 package bots;
 
+import lavaplayer.PlayerManager;
 import listeners.CommandListener;
 import listeners.OnMessageListener;
-import lavaplayer.PlayerManager;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import org.apache.commons.logging.Log;
-import utils.BotPreferences;
-import utils.FilePaths;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
-import net.dv8tion.jda.api.events.message.guild.GenericGuildMessageEvent;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
+import utils.BotPreferences;
+import utils.FilePaths;
 import utils.MessagePresets;
 import voicevox.VoicevoxHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.sql.Time;
+import java.util.Date;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ReadupBot implements OnMessageListener, CommandListener {
 
@@ -67,7 +64,7 @@ public class ReadupBot implements OnMessageListener, CommandListener {
                     ? msg
                     : String.valueOf(new Random().nextInt(100)));
 
-            Logger.getGlobal().log(Level.INFO, "File [" + fileName +  "] - " + msg);
+            System.out.println(new Date() + " ::::: File [" + fileName +  "] - " + msg);
 
             if (msg.length() >= 30 || !(new File(fileName).exists())) {
                 FileOutputStream fos = new FileOutputStream(fileName);
