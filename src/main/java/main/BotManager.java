@@ -68,7 +68,7 @@ public class BotManager extends ListenerAdapter {
                 .addField("/join", "読み上げを始める", false)
                 .addField("/setvoice [id]", """
                         読み上げのボイスを変える、設定できるボイスは以下となります
-                        [id] は　0,1,8,9 の一つになります、詳細は下の説明をご覧ください
+                        [id] は　2, 3, 8, 9　の一つになります、詳細は下の説明をご覧ください
                         例：/setvoice 0
                         
                         清楚：2

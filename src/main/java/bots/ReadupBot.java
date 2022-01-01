@@ -16,13 +16,12 @@ import voicevox.VoicevoxHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.sql.Time;
 import java.util.Date;
 import java.util.Random;
 
 public class ReadupBot implements OnMessageListener, CommandListener {
 
-    private TextChannel initTextChannel;
+    private Long initTextChannelId;
 
     private VoiceChannel vc;
     private AudioManager audioManager;
@@ -45,7 +44,7 @@ public class ReadupBot implements OnMessageListener, CommandListener {
 
             audioManager.openAudioConnection(newVC);
 
-            initTextChannel = event.getTextChannel();
+            initTextChannelId = event.getTextChannel().getIdLong();
         }
 
         return this;
@@ -57,6 +56,9 @@ public class ReadupBot implements OnMessageListener, CommandListener {
     }
 
     public void readMessage(String msg, TextChannel msgTextChannel) {
+        if (msgTextChannel.getIdLong() != initTextChannelId)
+            return;
+
         Long msgGuildId = msgTextChannel.getGuild().getIdLong();
 
         try {
@@ -116,15 +118,15 @@ public class ReadupBot implements OnMessageListener, CommandListener {
 
     @Override
     public void onMixedMessage(@NotNull Message msg) {
-        if (msg.getTextChannel() == initTextChannel) {
-            String msgWithoutEmoji = msg.getContentRaw().replaceAll("<.*>", "");
-            readMessage(msgWithoutEmoji, msg.getTextChannel());
-        }
+        String msgWithoutEmoji = msg.getContentRaw().replaceAll("<.*>", "");
+        String msgWithoutEmojiLink = msgWithoutEmoji.substring(0, msgWithoutEmoji.indexOf("http"));
+
+        readMessage(msgWithoutEmojiLink, msg.getTextChannel());
     }
 
     @Override
     public void onAirPurify(SlashCommandEvent event) {
-        if (event.getTextChannel() == initTextChannel) {
+        if (event.getTextChannel().getIdLong() == initTextChannelId) {
             try {
                 PlayerManager.getInstance().loadAndPlay(event.getTextChannel(), FilePaths.SFX + "/airpurify.mp3");
             } catch (Exception e) {
