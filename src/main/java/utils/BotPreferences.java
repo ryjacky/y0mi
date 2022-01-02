@@ -1,5 +1,7 @@
 package utils;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.prefs.Preferences;
 
 public class BotPreferences {
@@ -7,9 +9,11 @@ public class BotPreferences {
 
     private static final Preferences pref = Preferences.userRoot().node(PREF_PATH);
 
-    // in {key, defaultValue} format
-    public static final String[] PREFIX = {"prefix", "!"};
-    public static String getPrefix(){
-        return pref.get(PREFIX[0], PREFIX[1]);
+    public static final String VOICE = "voice";
+    public static int getVoice(@NotNull Long guildID){
+        return pref.getInt(guildID + VOICE, 0);
+    }
+    public static void setVoice(@NotNull Long guildID, String voice){
+        pref.put(guildID + VOICE, voice);
     }
 }
