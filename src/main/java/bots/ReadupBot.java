@@ -104,8 +104,8 @@ public class ReadupBot implements OnMessageListener, CommandListener {
     public void onLinkMessage(@NotNull Message msg) {
         if (msg.getContentRaw().contains("tenor.com"))
             readMessage(MessagePresets.gifSent, msg.getTextChannel());
-
-        readMessage(MessagePresets.urlShortened, msg.getTextChannel());
+        else
+            readMessage(MessagePresets.urlShortened, msg.getTextChannel());
     }
 
     @Override
