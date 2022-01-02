@@ -16,12 +16,15 @@ import voicevox.VoicevoxHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.sql.Array;
+import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 
 public class ReadupBot implements OnMessageListener, CommandListener {
 
-    private Long initTextChannelId;
+    private TextChannel initTextChannel;
 
     private VoiceChannel vc;
     private AudioManager audioManager;
@@ -44,7 +47,7 @@ public class ReadupBot implements OnMessageListener, CommandListener {
 
             audioManager.openAudioConnection(newVC);
 
-            initTextChannelId = event.getTextChannel().getIdLong();
+            initTextChannel = event.getTextChannel();
         }
 
         return this;
@@ -55,8 +58,17 @@ public class ReadupBot implements OnMessageListener, CommandListener {
             audioManager.closeAudioConnection();
     }
 
+    /**
+     * Split the string with punctuations and each sentence contains not more than 30 words
+     */
+    private String[] splitString(String raw){
+        String[] rawSplit = raw.split("[＃＄％＆'（）＊＋，－．／：；＜＝＞？＠［\\\\］＾＿｀｛｜｝~。、　]");
+
+        return rawSplit;
+    }
+
     public void readMessage(String msg, TextChannel msgTextChannel) {
-        if (msgTextChannel.getIdLong() != initTextChannelId)
+        if (msgTextChannel != initTextChannel)
             return;
 
         Long msgGuildId = msgTextChannel.getGuild().getIdLong();
@@ -90,14 +102,18 @@ public class ReadupBot implements OnMessageListener, CommandListener {
 
     @Override
     public void onLinkMessage(@NotNull Message msg) {
+        if (msg.getContentRaw().contains("tenor.com"))
+            readMessage(MessagePresets.gifSent, msg.getTextChannel());
+
         readMessage(MessagePresets.urlShortened, msg.getTextChannel());
     }
 
     @Override
     public void onAttachmentMessage(@NotNull Message msg) {
-        if (msg.getAttachments().get(0).isImage())
+        if (msg.getAttachments().get(0).isImage()) {
+            readMessage(msg.getContentRaw(), msg.getTextChannel());
             readMessage(MessagePresets.imageSent, msg.getTextChannel());
-        else if (msg.getAttachments().get(0).isVideo())
+        } else if (msg.getAttachments().get(0).isVideo())
             readMessage(MessagePresets.videoSent, msg.getTextChannel());
     }
 
@@ -118,15 +134,25 @@ public class ReadupBot implements OnMessageListener, CommandListener {
 
     @Override
     public void onMixedMessage(@NotNull Message msg) {
-        String msgWithoutEmoji = msg.getContentRaw().replaceAll("<.*>", "");
-        String msgWithoutEmojiLink = msgWithoutEmoji.substring(0, msgWithoutEmoji.indexOf("http"));
+        String msgWithoutEmoji = msg.getContentRaw().
+                replaceAll("<.*>", "")
+                .replaceAll("/", "スラッシュ")
+                .replaceAll("\\\\", "")
+                .replaceAll("/", "")
+                .replaceAll("\n", "")
+                .replaceAll("\\?", "");
 
-        readMessage(msgWithoutEmojiLink, msg.getTextChannel());
+        if (msgWithoutEmoji.length() > 0 && msgWithoutEmoji.length() < 55) {
+            for (String s :
+                    splitString(msgWithoutEmoji)) {
+                readMessage(s, msg.getTextChannel());
+            }
+        }
     }
 
     @Override
     public void onAirPurify(SlashCommandEvent event) {
-        if (event.getTextChannel().getIdLong() == initTextChannelId) {
+        if (event.getTextChannel() == initTextChannel) {
             try {
                 PlayerManager.getInstance().loadAndPlay(event.getTextChannel(), FilePaths.SFX + "/airpurify.mp3");
             } catch (Exception e) {

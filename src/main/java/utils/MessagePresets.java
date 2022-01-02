@@ -15,4 +15,5 @@ public class MessagePresets {
     public static final String airPurify = "ぷち！ふううううううううう・・・";
     public static final String cmdNotFound = "コマンド見つかれません";
     public static final String memberNotInChannel = "VCにいないため、このコマンドは実行できません。";
+    public static final String gifSent = "じふがそうしんされました";
 }

@@ -1,5 +1,6 @@
 package utils;
 
+import net.dv8tion.jda.api.entities.Emoji;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +22,7 @@ public class MessageTools {
             return MessageType.HIDDEN_MSG;
         else if (msg.getAuthor().isBot())
             return MessageType.BOT_MSG;
-        else if (msgString.matches(":.*:"))
+        else if (msgString.matches(":.*:") || EmojiDetector.isEmojiOnly(msgString))
             return MessageType.EMOJI_MSG;
         else if (msgString.matches("[(http(s)?):\\/\\/(www\\.)?a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)"))
             return MessageType.LINK_MSG;
@@ -45,6 +46,7 @@ public class MessageTools {
             case SET_VOICE -> new CommandContext(Commands.SET_VOICE,
                     event.getOptionsByName("id").get(0).getAsString());
             case HELP -> new CommandContext(Commands.HELP);
+            case CREDIT -> new CommandContext(CREDIT);
             default -> new CommandContext(Commands.NA);
         };
 

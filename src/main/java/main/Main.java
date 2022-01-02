@@ -25,7 +25,7 @@ public class Main {
             jda.updateCommands()
                     .addCommands(new CommandData(HELP, "マニュアルを呼び出す"))
                     .addCommands(new CommandData(JOIN, "読み上げを始める"))
-                    .addCommands(new CommandData(SET_VOICE, "ボイスの設定").addOption(
+                    .addCommands(new CommandData(SET_VOICE, "ボイスの設定、設定できるID：清楚 - 2, ロリ - 3, JK - 8, 年上お姉さん - 9").addOption(
                             OptionType.INTEGER, "id", "ボイスID"))
                     .addCommands(new CommandData(PURIFY, "空気清浄機"))
                     .addCommands(new CommandData(LEAVE, "読み上げを終了します"))

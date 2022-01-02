@@ -61,23 +61,6 @@ public class BotManager extends ListenerAdapter {
         }
     }
 
-    public MessageEmbed generateHelp(){
-        return new EmbedBuilder()
-                .setColor(0xF57B42)
-                .setTitle("ヘルプ")
-                .addField("/join", "読み上げを始める", false)
-                .addField("/setvoice [id]", """
-                        読み上げのボイスを変える、設定できるボイスは以下となります
-                        [id] は　2, 3, 8, 9　の一つになります、詳細は下の説明をご覧ください
-                        例：/setvoice 0
-                        
-                        清楚：2
-                        ロリ：3
-                        JK：8
-                        お姉さん：9""", false)
-                .addField("/ap", "空気清浄機をONにする", false).build();
-    }
-
     @Override
     public void onSlashCommand(@NotNull SlashCommandEvent event) {
         super.onSlashCommand(event);
@@ -116,6 +99,7 @@ public class BotManager extends ListenerAdapter {
                 }
             }
             case HELP -> event.replyEmbeds(generateHelp()).setEphemeral(true).queue();
+            case CREDIT -> event.replyEmbeds(generateCredit()).setEphemeral(true).queue();
 
             // Bot instance specific commands go after this line
             // -----------------------------------------------------------------------------------
@@ -130,5 +114,34 @@ public class BotManager extends ListenerAdapter {
 
         }
 
+    }
+
+    public MessageEmbed generateHelp(){
+        return new EmbedBuilder()
+                .setColor(0xF57B42)
+                .setTitle("ヘルプ")
+                .addField("/join", "読み上げを始める", false)
+                .addField("/setvoice [id]", """
+                        読み上げのボイスを変える、設定できるボイスは以下となります
+                        [id] は　2, 3, 8, 9　の一つになります、詳細は下の説明をご覧ください
+                        例：/setvoice 0
+                        
+                        清楚：2
+                        ロリ：3
+                        JK：8
+                        お姉さん：9""", false)
+                .addField("/ap", "空気清浄機をONにする", false).build();
+    }
+
+    public MessageEmbed generateCredit(){
+        return new EmbedBuilder()
+                .setColor(0xF57B42)
+                .setTitle("クレジット")
+                .addField("VOICEVOX:四国めたん", "", false)
+                .addField("VOICEVOX:ずんだもん", "", false)
+                .addField("VOICEVOX:春日部つむぎ", "", false)
+                .addField("VOICEVOX:波音リツ", "", false)
+                .addField("VOICEVOX", "voicevox.hiroshiba.jp", false)
+                .build();
     }
 }
