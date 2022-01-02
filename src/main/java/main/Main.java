@@ -9,10 +9,10 @@ import utils.FilePaths;
 import javax.security.auth.login.LoginException;
 import java.io.File;
 
+import static bots.BotCredential.TOKEN;
 import static utils.Commands.*;
 
 public class Main {
-    public static final String TOKEN = "ODY3NDM2NjA4OTg1NDk3NjAw.YPhFSw.loafVGjIMX3HxYUqgD_Zm8cTx9s";
 
     public static void main(String[] args) {
         createFolderIfNotExists(FilePaths.CACHE_PATH);
