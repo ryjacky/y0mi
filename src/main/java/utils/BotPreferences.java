@@ -16,4 +16,12 @@ public class BotPreferences {
     public static void setVoice(@NotNull Long guildID, String voice){
         pref.put(guildID + VOICE, voice);
     }
+
+    public static final String TOKEN = "token";
+    public static String getToken(@NotNull String token){
+        return pref.get(TOKEN, "");
+    }
+    public static void setToken(@NotNull String token){
+        pref.put(TOKEN, token);
+    }
 }
