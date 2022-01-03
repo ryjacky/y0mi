@@ -4,12 +4,13 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import utils.BotPreferences;
 import utils.FilePaths;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
-
-import static bots.BotCredential.TOKEN;
+import java.util.Scanner;
+import static utils.BotPreferences.TOKEN;
 import static utils.Commands.*;
 
 public class Main {
@@ -18,9 +19,21 @@ public class Main {
         createFolderIfNotExists(FilePaths.CACHE_PATH);
         createFolderIfNotExists(FilePaths.SFX);
 
+        Scanner scanner = new Scanner(System.in);
+
+        String botToken = BotPreferences.getToken(TOKEN);
+        if (botToken.equals("")){
+            System.out.print("Discord token not set, please enter your discord token: ");
+            botToken = scanner.nextLine();
+
+            BotPreferences.setToken(botToken);
+        }
+
+        final BotManager botManager = new BotManager();
+
         try {
-            JDA jda = JDABuilder.createDefault(TOKEN).build();
-            jda.addEventListener(new BotManager());
+            JDA jda = JDABuilder.createDefault(botToken).build();
+            jda.addEventListener(botManager);
 
             jda.updateCommands()
                     .addCommands(new CommandData(HELP, "マニュアルを呼び出す"))
@@ -33,6 +46,21 @@ public class Main {
 
         } catch (LoginException e) {
             e.printStackTrace();
+        }
+
+        while (true){
+            String[] command = scanner.nextLine().split(" ");
+            switch (command[0]){
+                case T_STOP -> {
+                    botManager.stop();
+                    System.exit(0);
+                }
+                case T_SET -> {
+                    if (command[1].equals(T_SET_TOKEN)){
+                        BotPreferences.setToken(command[2]);
+                    }
+                }
+            }
         }
     }
 

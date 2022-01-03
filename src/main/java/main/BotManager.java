@@ -116,7 +116,7 @@ public class BotManager extends ListenerAdapter {
 
     }
 
-    public MessageEmbed generateHelp(){
+    private MessageEmbed generateHelp(){
         return new EmbedBuilder()
                 .setColor(0xF57B42)
                 .setTitle("ヘルプ")
@@ -133,7 +133,7 @@ public class BotManager extends ListenerAdapter {
                 .addField("/ap", "空気清浄機をONにする", false).build();
     }
 
-    public MessageEmbed generateCredit(){
+    private MessageEmbed generateCredit(){
         return new EmbedBuilder()
                 .setColor(0xF57B42)
                 .setTitle("クレジット")
@@ -143,5 +143,11 @@ public class BotManager extends ListenerAdapter {
                 .addField("VOICEVOX:波音リツ", "", false)
                 .addField("VOICEVOX", "voicevox.hiroshiba.jp", false)
                 .build();
+    }
+
+    public void stop(){
+        botInstances.forEach((key, value) -> {
+            botInstances.get(key).leaveVC();
+        });
     }
 }
