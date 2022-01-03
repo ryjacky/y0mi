@@ -9,6 +9,7 @@
 ### 下準備
 1. Javaをインストール
 ### インストール
+#### ウインドーズ
 1. ボットのために任意のところにフォルダーを作ってください（権限いらないところで）
 2. フォルダーの中でShift＋右クリでPowershellを開く
 	3. できない場合はフォルダーパスをコピーして、スタートメニューからPowershellを開く、次のコマンドでフォルダーへ移動します ```cd C:\path\to\your\folder```
@@ -37,6 +38,7 @@ java -jar yomichan.jar
 rm yomichan.zip
 rm voicevox-cpu.7z
 ```
+#### Linux (準備中)
 
 ## クレジット
 ### [VOICEVOX](https://voicevox.hiroshiba.jp/)
