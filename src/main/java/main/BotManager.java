@@ -124,12 +124,12 @@ public class BotManager extends ListenerAdapter {
                 .addField("/setvoice [id]", """
                         読み上げのボイスを変える、設定できるボイスは以下となります
                         [id] は　2, 3, 8, 9　の一つになります、詳細は下の説明をご覧ください
-                        例：/setvoice 0
+                        例：/setvoice 2
                         
-                        清楚：2
-                        ロリ：3
-                        JK：8
-                        お姉さん：9""", false)
+                        四国めたん：2
+                        ずんだもん：3
+                        春日部つむぎ：8
+                        波音リツ：9""", false)
                 .addField("/ap", "空気清浄機をONにする", false).build();
     }
 
