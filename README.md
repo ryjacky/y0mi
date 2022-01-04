@@ -8,7 +8,7 @@
 ## インストール
 ### 下準備
 1. Javaをインストール
-2. ディスコードボットTokenの取得[](https://github.com/yakisalmon/yomichan/wiki/%E3%83%87%E3%82%A3%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E3%83%9C%E3%83%83%E3%83%88Token%E3%81%AE%E5%8F%96%E5%BE%97%E6%96%B9%E6%B3%95)
+2. [ディスコードボットTokenの取得](https://github.com/yakisalmon/yomichan/wiki/%E3%83%87%E3%82%A3%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E3%83%9C%E3%83%83%E3%83%88Token%E3%81%AE%E5%8F%96%E5%BE%97%E6%96%B9%E6%B3%95)
 ### インストール
 #### ウインドーズ
 1. ボットのために任意のところにフォルダーを作ってください（権限いらないところで）
