@@ -11,9 +11,11 @@ import java.nio.ByteBuffer;
 public class VoicevoxHelper {
     private static final OkHttpClient httpClient = new OkHttpClient();
 
+    private static String voicevoxServer = BotPreferences.getVoicevoxServer();
+
     public static @NotNull String getQuery(Long guildId, String text) throws IOException {
         Request request = new Request.Builder()
-                .url("http://localhost:50021/audio_query?speaker=" + BotPreferences.getVoice(guildId) + "&text=" + text)
+                .url("http://" + voicevoxServer + ":50021/audio_query?speaker=" + BotPreferences.getVoice(guildId) + "&text=" + text)
                 .addHeader("User-Agent", "OkHttp Bot")
                 .post(new FormBody.Builder().build())
                 .build();
@@ -33,7 +35,7 @@ public class VoicevoxHelper {
 
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
-                .url("http://localhost:50021/synthesis?speaker=" + BotPreferences.getVoice(guildId))
+                .url("http://" + voicevoxServer + ":50021/synthesis?speaker=" + BotPreferences.getVoice(guildId))
                 .addHeader("User-Agent", "OkHttp Bot")
                 .post(body)
                 .build();

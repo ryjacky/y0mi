@@ -24,4 +24,12 @@ public class BotPreferences {
     public static void setToken(@NotNull String token){
         pref.put(TOKEN, token);
     }
+
+    public static final String VOICEVOXSERVER = "voicevox_ip";
+    public static String getVoicevoxServer(){
+        return pref.get(VOICEVOXSERVER, "");
+    }
+    public static void setVoicevoxServer(@NotNull String voicevox_ip){
+        pref.put(VOICEVOXSERVER, voicevox_ip);
+    }
 }

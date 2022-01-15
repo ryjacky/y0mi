@@ -29,6 +29,14 @@ public class Main {
             BotPreferences.setToken(botToken);
         }
 
+        String voicevoxServer = BotPreferences.getVoicevoxServer();
+        if (voicevoxServer.equals("")){
+            System.out.print("Voicevox server ip not set, please enter your Voicevox server ip: ");
+            voicevoxServer = scanner.nextLine();
+
+            BotPreferences.setVoicevoxServer(voicevoxServer);
+        }
+
         final BotManager botManager = new BotManager();
 
         try {
