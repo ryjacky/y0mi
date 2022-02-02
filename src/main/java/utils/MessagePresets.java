@@ -4,16 +4,16 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
 public class MessagePresets {
-    public static final String urlShortened = "URLçœç•¥";
-    public static final String imageSent = "ç”»åƒãŒãã†ã—ã‚“ã•ã‚Œã¾ã—ãŸ";
-    public static final String videoSent = "å‹•ç”»ãŒãã†ã—ã‚“ã•ã‚Œã¾ã—ãŸ";
-    public static final String privateMsgSent = "éš ã•ã‚ŒãŸæ–‡å­—ãŒãã†ã—ã‚“ã•ã‚Œã¾ã—ãŸ";
-    public static final String channelJoined = "ä»Šã‹ã‚‰èª­ã¿ä¸Šã’ã¾ã™ï¼";
-    public static final String channelLeaved = "èª­ã¿ä¸Šã’ã‚’çµ‚äº†ã—ã¾ã™ï¼";
-    public static final String setVoiceFailed = "ãƒœã‚¤ã‚¹ã®è¨­å®šã¯å¤±æ•—ã—ã¾ã—ãŸï¼";
-    public static final String setVoiceSuccess = "æ–°ã—ã„ãƒœã‚¤ã‚¹ã«å¤‰ãˆã¾ã—ãŸï¼";
-    public static final String airPurify = "ã·ã¡ï¼ãµã†ã†ã†ã†ã†ã†ã†ã†ã†ãƒ»ãƒ»ãƒ»";
-    public static final String cmdNotFound = "ã‚³ãƒãƒ³ãƒ‰è¦‹ã¤ã‹ã‚Œã¾ã›ã‚“";
-    public static final String memberNotInChannel = "VCã«ã„ãªã„ãŸã‚ã€ã“ã®ã‚³ãƒãƒ³ãƒ‰ã¯å®Ÿè¡Œã§ãã¾ã›ã‚“ã€‚";
-    public static final String gifSent = "ã˜ãµãŒãã†ã—ã‚“ã•ã‚Œã¾ã—ãŸ";
+    public static final String urlShortened = "URLÈ—ª";
+    public static final String imageSent = "‰æ‘œ‚ª‚»‚¤‚µ‚ñ‚³‚ê‚Ü‚µ‚½";
+    public static final String videoSent = "“®‰æ‚ª‚»‚¤‚µ‚ñ‚³‚ê‚Ü‚µ‚½";
+    public static final String privateMsgSent = "‰B‚³‚ê‚½•¶š‚ª‚»‚¤‚µ‚ñ‚³‚ê‚Ü‚µ‚½";
+    public static final String channelJoined = "¡‚©‚ç“Ç‚İã‚°‚Ü‚·I";
+    public static final String channelLeaved = "“Ç‚İã‚°‚ğI—¹‚µ‚Ü‚·I";
+    public static final String setVoiceFailed = "ƒ{ƒCƒX‚Ìİ’è‚Í¸”s‚µ‚Ü‚µ‚½I";
+    public static final String setVoiceSuccess = "V‚µ‚¢ƒ{ƒCƒX‚É•Ï‚¦‚Ü‚µ‚½I";
+    public static final String airPurify = "‚Õ‚¿I‚Ó‚¤‚¤‚¤‚¤‚¤‚¤‚¤‚¤‚¤EEE";
+    public static final String cmdNotFound = "ƒRƒ}ƒ“ƒhŒ©‚Â‚©‚ê‚Ü‚¹‚ñ";
+    public static final String memberNotInChannel = "VC‚É‚¢‚È‚¢‚½‚ßA‚±‚ÌƒRƒ}ƒ“ƒh‚ÍÀs‚Å‚«‚Ü‚¹‚ñB";
+    public static final String gifSent = "‚¶‚Ó‚ª‚»‚¤‚µ‚ñ‚³‚ê‚Ü‚µ‚½";
 }

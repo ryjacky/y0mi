@@ -15,6 +15,7 @@ import utils.CommandContext;
 import utils.MessagePresets;
 import utils.MessageTools;
 
+import java.util.Date;
 import java.util.HashMap;
 
 import static utils.Commands.*;
@@ -57,6 +58,7 @@ public class BotManager extends ListenerAdapter {
             if (event.getChannelLeft().getMembers().size() <= 1){
                 botInstances.get(eventGuildIdLong).leaveVC();
                 botInstances.remove(eventGuildIdLong);
+                System.out.println(new Date() + "Disconnected from " + eventGuildIdLong);
             }
         }
     }
@@ -119,28 +121,28 @@ public class BotManager extends ListenerAdapter {
     private MessageEmbed generateHelp(){
         return new EmbedBuilder()
                 .setColor(0xF57B42)
-                .setTitle("ãƒ˜ãƒ«ãƒ—")
-                .addField("/join", "èª­ã¿ä¸Šã’ã‚’å§‹ã‚ã‚‹", false)
+                .setTitle("ƒwƒ‹ƒv")
+                .addField("/join", "“Ç‚Ýã‚°‚ðŽn‚ß‚é", false)
                 .addField("/setvoice [id]", """
-                        èª­ã¿ä¸Šã’ã®ãƒœã‚¤ã‚¹ã‚’å¤‰ãˆã‚‹ã€è¨­å®šã§ãã‚‹ãƒœã‚¤ã‚¹ã¯ä»¥ä¸‹ã¨ãªã‚Šã¾ã™
-                        [id] ã¯ã€€2, 3, 8, 9ã€€ã®ä¸€ã¤ã«ãªã‚Šã¾ã™ã€è©³ç´°ã¯ä¸‹ã®èª¬æ˜Žã‚’ã”è¦§ãã ã•ã„
-                        ä¾‹ï¼š/setvoice 2
+                        “Ç‚Ýã‚°‚Ìƒ{ƒCƒX‚ð•Ï‚¦‚éAÝ’è‚Å‚«‚éƒ{ƒCƒX‚ÍˆÈ‰º‚Æ‚È‚è‚Ü‚·
+                        [id] ‚Í@2, 3, 8, 9@‚Ìˆê‚Â‚É‚È‚è‚Ü‚·AÚ×‚Í‰º‚Ìà–¾‚ð‚²——‚­‚¾‚³‚¢
+                        —áF/setvoice 2
                         
-                        å››å›½ã‚ãŸã‚“ï¼š2
-                        ãšã‚“ã ã‚‚ã‚“ï¼š3
-                        æ˜¥æ—¥éƒ¨ã¤ã‚€ãŽï¼š8
-                        æ³¢éŸ³ãƒªãƒ„ï¼š9""", false)
-                .addField("/ap", "ç©ºæ°—æ¸…æµ„æ©Ÿã‚’ONã«ã™ã‚‹", false).build();
+                        Žl‘‚ß‚½‚ñF2
+                        ‚¸‚ñ‚¾‚à‚ñF3
+                        t“ú•”‚Â‚Þ‚¬F8
+                        ”g‰¹ƒŠƒcF9""", false)
+                .addField("/ap", "‹ó‹C´ò‹@‚ðON‚É‚·‚é", false).build();
     }
 
     private MessageEmbed generateCredit(){
         return new EmbedBuilder()
                 .setColor(0xF57B42)
-                .setTitle("ã‚¯ãƒ¬ã‚¸ãƒƒãƒˆ")
-                .addField("VOICEVOX:å››å›½ã‚ãŸã‚“", "", false)
-                .addField("VOICEVOX:ãšã‚“ã ã‚‚ã‚“", "", false)
-                .addField("VOICEVOX:æ˜¥æ—¥éƒ¨ã¤ã‚€ãŽ", "", false)
-                .addField("VOICEVOX:æ³¢éŸ³ãƒªãƒ„", "", false)
+                .setTitle("ƒNƒŒƒWƒbƒg")
+                .addField("VOICEVOX:Žl‘‚ß‚½‚ñ", "", false)
+                .addField("VOICEVOX:‚¸‚ñ‚¾‚à‚ñ", "", false)
+                .addField("VOICEVOX:t“ú•”‚Â‚Þ‚¬", "", false)
+                .addField("VOICEVOX:”g‰¹ƒŠƒc", "", false)
                 .addField("VOICEVOX", "voicevox.hiroshiba.jp", false)
                 .build();
     }

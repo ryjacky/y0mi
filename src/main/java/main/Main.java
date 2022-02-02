@@ -44,13 +44,13 @@ public class Main {
             jda.addEventListener(botManager);
 
             jda.updateCommands()
-                    .addCommands(new CommandData(HELP, "ãƒãƒ‹ãƒ¥ã‚¢ãƒ«ã‚’å‘¼ã³å‡ºã™"))
-                    .addCommands(new CommandData(JOIN, "èª­ã¿ä¸Šã’ã‚’å§‹ã‚ã‚‹"))
-                    .addCommands(new CommandData(SET_VOICE, "è¨­å®šã§ãã‚‹ãƒœã‚¤ã‚¹ã¯/helpã‹ã‚‰").addOption(
-                            OptionType.INTEGER, "id", "ãƒœã‚¤ã‚¹ID"))
-                    .addCommands(new CommandData(PURIFY, "ç©ºæ°—æ¸…æµ„æ©Ÿ"))
-                    .addCommands(new CommandData(LEAVE, "èª­ã¿ä¸Šã’ã‚’çµ‚äº†ã—ã¾ã™"))
-                    .addCommands(new CommandData(CREDIT, "èª­ã¿ä¸Šã’ã‚’çµ‚äº†ã—ã¾ã™"))
+                    .addCommands(new CommandData(HELP, "ƒ}ƒjƒ…ƒAƒ‹‚ğŒÄ‚Ño‚·"))
+                    .addCommands(new CommandData(JOIN, "“Ç‚İã‚°‚ğn‚ß‚é"))
+                    .addCommands(new CommandData(SET_VOICE, "İ’è‚Å‚«‚éƒ{ƒCƒX‚Í/help‚©‚ç").addOption(
+                            OptionType.INTEGER, "id", "ƒ{ƒCƒXID"))
+                    .addCommands(new CommandData(PURIFY, "‹ó‹C´ò‹@"))
+                    .addCommands(new CommandData(LEAVE, "“Ç‚İã‚°‚ğI—¹‚µ‚Ü‚·"))
+                    .addCommands(new CommandData(CREDIT, "“Ç‚İã‚°‚ğI—¹‚µ‚Ü‚·"))
                     .queue();
 
         } catch (LoginException e) {

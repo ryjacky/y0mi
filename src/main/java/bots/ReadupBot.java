@@ -62,7 +62,7 @@ public class ReadupBot implements OnMessageListener, CommandListener {
      * Split the string with punctuations and each sentence contains not more than 30 words
      */
     private String[] splitString(String raw){
-        String[] rawSplit = raw.split("[ï¼ƒï¼„ï¼…ï¼†'ï¼ˆï¼‰ï¼Šï¼‹ï¼Œï¼ï¼ï¼ï¼šï¼›ï¼œï¼ï¼ï¼Ÿï¼ ï¼»\\\\ï¼½ï¼¾ï¼¿ï½€ï½›ï½œï½~ã€‚ã€ã€€]");
+        String[] rawSplit = raw.split("[”“•fij–{C|D^FGƒ„H—m\\\\nOQMobp~BA@]");
 
         return rawSplit;
     }
@@ -136,7 +136,7 @@ public class ReadupBot implements OnMessageListener, CommandListener {
     public void onMixedMessage(@NotNull Message msg) {
         String msgWithoutEmoji = msg.getContentRaw().
                 replaceAll("<.*>", "")
-                .replaceAll("/", "ã‚¹ãƒ©ãƒƒã‚·ãƒ¥")
+                .replaceAll("/", "ƒXƒ‰ƒbƒVƒ…")
                 .replaceAll("\\\\", "")
                 .replaceAll("/", "")
                 .replaceAll("\n", "")
