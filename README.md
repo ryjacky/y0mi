@@ -20,7 +20,7 @@
 4. 以下のコマンドを実行して、必要なファイルをダウンロードします
 ```
 # ボットサーバーのファイルをダウンロードして、解凍します
-Invoke-WebRequest -Uri https://github.com/yakisalmon/yomichan/releases/download/beta/yomichan.zip -OutFile yomichan.zip
+Invoke-WebRequest -Uri https://github.com/yakisalmon/yomichan/releases/download/v1.0.3-alpha/yomichan.zip -OutFile yomichan.zip
 
 Expand-Archive yomichan.zip -DestinationPath .
 
