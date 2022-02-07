@@ -55,7 +55,8 @@ public class BotManager extends ListenerAdapter {
         Long eventGuildIdLong = event.getGuild().getIdLong();
 
         if (botInstances.containsKey(eventGuildIdLong)){
-            if (event.getChannelLeft().getMembers().size() <= 1){
+            if (botInstances.get(eventGuildIdLong).getVc().getIdLong() == event.getChannelLeft().getIdLong()
+                    && event.getChannelLeft().getMembers().size() <= 1){
                 botInstances.get(eventGuildIdLong).leaveVC();
                 botInstances.remove(eventGuildIdLong);
                 System.out.println(new Date() + "Disconnected from " + eventGuildIdLong);

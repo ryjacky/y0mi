@@ -32,6 +32,10 @@ public class ReadupBot implements OnMessageListener, CommandListener {
     public ReadupBot() {
     }
 
+    public VoiceChannel getVc() {
+        return vc;
+    }
+
     public ReadupBot joinVC(@NotNull SlashCommandEvent event) throws Exception {
         if (!event.getMember().getVoiceState().inVoiceChannel()) {
             throw new Exception("Member not in channel");
