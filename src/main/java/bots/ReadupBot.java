@@ -16,6 +16,7 @@ import voicevox.VoicevoxHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.net.ConnectException;
 import java.sql.Array;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -85,16 +86,25 @@ public class ReadupBot implements OnMessageListener, CommandListener {
             System.out.println(new Date() + " ::::: File [" + fileName +  "] - " + msg);
 
             if (msg.length() >= 30 || !(new File(fileName).exists())) {
-                FileOutputStream fos = new FileOutputStream(fileName);
-                fos.write(
-                        VoicevoxHelper.getWav(
-                                msgGuildId,
-                                VoicevoxHelper.getQuery(
-                                        msgGuildId,
-                                        msg)
-                        ));
-                fos.close();
-                fos.flush();
+
+                try{
+                    byte[] wavData = VoicevoxHelper.getWav(
+                            msgGuildId,
+                            VoicevoxHelper.getQuery(
+                                    msgGuildId,
+                                    msg)
+                    );
+
+                    FileOutputStream fos = new FileOutputStream(fileName);
+                    fos.write(wavData);
+                    fos.close();
+                    fos.flush();
+                } catch (ConnectException ce){
+                    System.out.println("ERROR!!!!!!!!!!! Cannot connect to voice server");
+                    System.out.println("From: " + this.getClass());
+                }
+
+
             }
 
             PlayerManager.getInstance().loadAndPlay(msgTextChannel, fileName);
