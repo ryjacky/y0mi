@@ -44,7 +44,7 @@ rm voicevox-cpu.7z
 ```
 #### Linux (準備中)
 
-## クレジット
+## 特別感謝
 ### [VOICEVOX](https://voicevox.hiroshiba.jp/)
 VOICEVOX:四国めたん
 VOICEVOX:ずんだもん
