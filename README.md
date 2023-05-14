@@ -1,3 +1,5 @@
+# Deprecation
+Since discord has updated its API, this bot will not work on newer Discord applications. I will have to update this in order for it to work.
 
 # Y0MI
 新参ディスコード読み上げボットです、特長はかわいいです！
